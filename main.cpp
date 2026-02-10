@@ -22,7 +22,7 @@
     std::string message(argv[2]);
     std::cout<<"File path is : "<<path<<"\n";
 
-    std::ofstream outfile(path);
+    std::ofstream outfile(path,std::ios::binary);
     if(!outfile.is_open()){
       std::cerr<<"Failed to open file: "<<path<<"\n";
       std::cout<<"File may not exist , check the path provided \n";

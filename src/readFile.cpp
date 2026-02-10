@@ -8,6 +8,8 @@ struct Node {
     Node(uint8_t d, int f) : data(d), freq(f), left(nullptr), right(nullptr) {}
 };
 
+
+
 void readFile(std::string result , std::ifstream &in){
         std::string buffer("");
         
@@ -21,4 +23,3 @@ void readFile(std::string result , std::ifstream &in){
           buffer = "";
         }
     }
-
