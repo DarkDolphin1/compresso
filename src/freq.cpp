@@ -25,5 +25,21 @@ uint64_t freq[256] = {0};
         in.seekg(0);
 
         if(in.peek() != 0) std::cerr<<"[FREQ] : file pointer probably did not reset \n ";
-        
+
     }
+
+// building a heap tree
+
+struct Node {
+    uint64_t freq; 
+    uint8_t symbol;
+    Node* left;
+    Node* right;
+};
+
+struct Compare {
+    bool operator()(const Node* a, const Node* b) const {
+        return (a->freq > b->freq);   // will be used later to build min-heap  
+    }
+};
+
