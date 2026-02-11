@@ -1,5 +1,6 @@
-#include "include/readFile.h"
 #include<cstdint>
+#include<fstream>
+#include "include/readFile.h"
 
 struct Node {
     uint8_t data;
@@ -10,16 +11,21 @@ struct Node {
 
 
 
-void readFile(std::string result , std::ifstream &in){
-        std::string buffer("");
-        
+void readFile(std::string result , std::string path){
+
+        std::ifstream in(path,std::ios::binary);
+
         if(!in.is_open()){
           std::cout<<"[ERROR] readFile: can not access input stream , is the file path valid ?";
           return;
         }
 
+        std::string buffer("");
+        
         while(std::getline(in,buffer)){
           result.append(buffer);
           buffer = "";
         }
+
+        in.close();
     }
