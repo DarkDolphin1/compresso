@@ -1,7 +1,9 @@
 #include"include/freq.h"
-
+#include"include/heap.h"
 
     Node* buildTree(){
+        if(minHeap.size() == 0) return nullptr;
+
             while (minHeap.size() > 1) {
                 Node* left = minHeap.top();
                 minHeap.pop();
@@ -12,6 +14,6 @@
                 Node* parent = new Node{ left->freq + right->freq, 0, left, right };
                 minHeap.push(parent);
             }
-    Node* root = minHeap.top();
+        Node* root = minHeap.top();
     return root;
     }
