@@ -1,0 +1,13 @@
+# ==== Build outputs ====
+*.out
+*.exe
+a.out
+*.o
+
+# ==== Compressed/generated files ====
+*.bin
+*.comp
+
+# ==== Large generated test files ====
+linear_input.txt
+random_input.txt
