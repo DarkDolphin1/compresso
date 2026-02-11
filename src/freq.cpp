@@ -4,6 +4,7 @@
 #include<queue>
 #include<iostream>
 #include"include/freq.h"
+#include"include/heap.h"
 
     void findFreq(std::ifstream &in){
         
