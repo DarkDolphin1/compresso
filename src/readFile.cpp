@@ -1,6 +1,6 @@
 #include<cstdint>
 #include<fstream>
-#include "include/readFile.h"
+#include "readFile.h"
 
 struct Node {
     uint8_t data;

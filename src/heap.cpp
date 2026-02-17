@@ -1,9 +1,17 @@
 #include<queue>
-#include"include/heap.h"
-#include"include/freq.h"
+#include"heap.h"
+#include"freq.h"
 
 
 std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap; // will be using pointers to node instead of actual nodes 
+
+
+
+bool Compare::operator()(const Node* a, const Node* b) const {
+    return a->freq > b->freq;
+}
+;
+
 
     void buildHeap(){
         for(int i = 0; i < 256; i++){

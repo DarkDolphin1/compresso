@@ -1,6 +1,7 @@
 #pragma once
 
 #include"gencode.h"
+#include<fstream>
 
 void writeBit(std::ofstream&,uint8_t,uint8_t&,uint8_t&);
 

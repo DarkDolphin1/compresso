@@ -1,7 +1,7 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-#include"include/readFile.h"
+#include"compresso.h"
 
   void printUsage(){
     std::cout<<" Compresso : Usage  \n";
@@ -17,6 +17,9 @@
       printUsage();
       std::exit(1);
     }
+
+    // hard coding file names for now
+    compresso("random.bin" , "comp_random.bin");
 
     return 0;
   }

@@ -1,7 +1,7 @@
-#include"include/gencode.h"
-#include"include/heap.h"
+#include"gencode.h"
+#include"heap.h"
 
-Code codes[256] = {};
+Code codes[256] = {0};
 
 //  we must call this funtion with the root node for it to give accurate results
 // the funtion itself is recursive 

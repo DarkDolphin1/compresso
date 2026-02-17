@@ -1,5 +1,5 @@
-#include"include/encode.h"
-#include"include/gencode.h"
+#include"encode.h"
+#include"gencode.h"
 #include<cstdint>
 #include<fstream>
 #include<iostream>

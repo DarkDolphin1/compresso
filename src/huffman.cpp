@@ -1,5 +1,5 @@
-#include"include/freq.h"
-#include"include/heap.h"
+#include"freq.h"
+#include"heap.h"
 
     Node* buildTree(){
         if(minHeap.size() == 0) return nullptr;

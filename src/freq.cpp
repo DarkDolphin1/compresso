@@ -1,12 +1,15 @@
+#include<iostream>
 #include<fstream>
 #include<cstdint>
 #include<climits>
 #include<queue>
-#include<iostream>
-#include"include/freq.h"
-#include"include/heap.h"
 
-    void findFreq(std::ifstream &in){
+#include"freq.h"
+#include"heap.h"
+
+uint64_t freq[256] = {0};
+
+    void findFreq(std::ifstream &in , uint64_t freq[] , const int size = 256){
         
         if(!in.is_open()){
             std::cerr<<"[FREQ] : Can not access file for reading \n";

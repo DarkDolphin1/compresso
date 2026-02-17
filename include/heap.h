@@ -1,7 +1,7 @@
 #pragma once
 
 #include<cstdint>
-
+#include<queue>
 
 struct Node{
     uint64_t freq; 
@@ -13,3 +13,7 @@ struct Node{
 struct Compare {
     bool operator()(const Node* a, const Node* b) const;
 };
+
+void buildHeap();
+
+extern std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap;

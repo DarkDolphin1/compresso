@@ -6,7 +6,6 @@
 #include<queue>
 
 
-extern uint64_t freq[256] = {0}; 
-void findFreq(std::ifstream);
+extern uint64_t freq[256];
+void findFreq(std::ifstream &in,uint64_t[],const int);
 
-extern std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include"include/freq.h"
+#include"freq.h"
 #include<cstdint>
 
 
