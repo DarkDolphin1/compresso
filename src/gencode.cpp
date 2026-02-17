@@ -1,7 +1,10 @@
-#include"include/gentree.h"
+#include"include/gencode.h"
 #include"include/heap.h"
 
 Code codes[256] = {};
+
+//  we must call this funtion with the root node for it to give accurate results
+// the funtion itself is recursive 
 
     void generateCodes(Node* node, uint64_t bits, uint8_t length){
         if (!node) return;
