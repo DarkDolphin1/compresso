@@ -1,6 +1,6 @@
 // TODO : use multi-threading to speed things up
 // TODO : improve memory usage
-#include<test/test.h>
+#include"test.h"
 #include<cstdint> 
 #include<random>
 
@@ -24,7 +24,7 @@
     }
 
     void write_random(std::ofstream &outstream , const size_t WRITE_LIMIT = 500ULL * 1024 * 1024 , const size_t CHUNK_SIZE = 1ULL * 1024 * 1024 ,
-                      uint8_t start = 0 , uint8_t end = 256  ){
+                      uint8_t start = 0 , uint8_t end = 255  ){
 
         if(!outstream.is_open()){
             std::cout<<"Error : failed to write test cases \n";
@@ -32,7 +32,7 @@
         }
 
         std::mt19937 rng(std::random_device{}());
-        std::uniform_int_distribution<uint8_t> dist(start, end-1); // Generate random data , in theory this should be harder to compress as we can't really find a strong pattern here
+        std::uniform_int_distribution<uint8_t> dist(start, end); // Generate random data , in theory this should be harder to compress as we can't really find a strong pattern here
 
         std::vector<uint8_t> buffer(CHUNK_SIZE);
 
@@ -45,4 +45,16 @@
             outstream.write(reinterpret_cast<char*>(buffer.data()), toWrite);
             written += toWrite;
         }
+    }
+
+    int main (){
+        std::ofstream outLinear("linear.bin",std::ios::binary);
+        std::ofstream outRandom("random.bin",std::ios::binary);
+
+        std::cout<<"generating linear data ....\n";
+        write_linear(outLinear);
+        std::cout<<"generating random data ....\n";
+        write_random(outRandom);
+        std::cout<<" Test case generated ! \n";
+        return 0;
     }
