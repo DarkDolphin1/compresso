@@ -28,21 +28,6 @@
 
     }
 
-// building a heap tree
-
-struct Node {
-    uint64_t freq; 
-    uint8_t symbol;
-    Node* left;
-    Node* right;
-};
-
-struct Compare {
-    bool operator()(const Node* a, const Node* b) const {
-        return (a->freq > b->freq);   // will be used later to build min-heap  
-    }
-};
-
 std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap; // will be using pointers to node instead of actual nodes 
 
     void buildHeap(){
@@ -54,4 +39,3 @@ std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap; // will be usin
             }
         }
     }
-
