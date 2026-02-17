@@ -1,6 +1,6 @@
 #pragma once
 
-#include"gentree.h"
+#include"gencode.h"
 
 void writeBit(std::ofstream&,uint8_t,uint8_t&,uint8_t&);
 
