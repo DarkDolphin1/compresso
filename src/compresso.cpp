@@ -23,10 +23,16 @@ void compresso(std::string input , std::string output){
     }
 
     findFreq(inBin,freq,256);
+    
     buildHeap();
+    
     const auto rootNode = buildTree();
+    
     generateCodes(rootNode,0,0);
+    
     encodeFile(inBin,outBin);
+    
+    destroyTree(rootNode);
 }
 
 /*

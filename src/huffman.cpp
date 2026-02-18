@@ -17,3 +17,11 @@
         Node* root = minHeap.top();
     return root;
     }
+
+void destroyTree(Node* node) {
+    if (!node) return;
+
+    destroyTree(node->left);
+    destroyTree(node->right);
+    delete node;
+}
