@@ -4,3 +4,4 @@
 #include"heap.h"
 
 Node* buildTree();
+void destroyTree(Node*);
