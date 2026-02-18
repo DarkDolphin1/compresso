@@ -22,4 +22,4 @@ uint64_t freq[256];       // 2048 bytes
 
 */
 
-
+void writeHeader(std::ofstream& out, const Header& header );

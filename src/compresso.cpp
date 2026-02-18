@@ -6,6 +6,8 @@
 #include"huffman.h"
 #include"compresso.h"
 
+#include<string.h>
+#include<cstring>
 #include<fstream>
 #include<iostream>
 
@@ -22,7 +24,13 @@ void compresso(std::string input , std::string output){
         return;
     }
 
-    findFreq(inBin,freq,256);
+    Header header;
+
+    header.checksum = 0; // will be using CRC for checksum later 
+
+    findFreq(inBin,freq,header); // copy freq table into header and also original size  
+
+    // std::memcpy(header.freq, freq, sizeof(uint64_t) * 256); // why is this function provided with string library ??
     
     buildHeap();
     
@@ -30,9 +38,12 @@ void compresso(std::string input , std::string output){
     
     generateCodes(rootNode,0,0);
     
+    writeHeader(outBin,header); // decoder should parse this properly  
+
     encodeFile(inBin,outBin);
     
     destroyTree(rootNode);
+
 }
 
 /*
