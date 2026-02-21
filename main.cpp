@@ -6,9 +6,8 @@
 
   void printUsage(){
     std::cout<<" Compresso : Usage  \n";
-    std::cout<<" main [file] [message] \n";
+    std::cout<<" compresso [file]  \n";
     std::cout<<" calling with insufficient paremeters will show this message \n ";
-    std::cout<<" THIS IS A TEST BRANCH AND DOES NOT RELATE TO FINAL INTENDED BEHAVIOUR \n";
   }
 
   int main(int argc , char** argv){
@@ -26,6 +25,8 @@
 		std::exit(1);
 	}
 
+	std::cout<<"Input :"<<input<<"\n";
+	std::cout<<"Output :"<<output<<"\n";
     compresso(input,output);
 
     return 0;
