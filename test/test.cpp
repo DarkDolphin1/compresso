@@ -24,7 +24,7 @@
         // generally the lifetime of the object should be determined by the scope where it is created rather than a helper function 
     }
 
-    void write_random(std::ofstream &outstream , uint8_t start = 0 , uint8_t end = 255 ,
+    void write_random(std::ofstream &outstream , uint8_t start  , uint8_t end  ,
                       const size_t WRITE_LIMIT = 500ULL * 1024 * 1024 , const size_t CHUNK_SIZE = 1ULL * 1024 * 1024){
 
         if(!outstream.is_open()){
@@ -55,9 +55,20 @@
         size_t start = 0;
         size_t end = 255;
 
-        if(argc == 3){
-            start = stoi(std::string(argv[1])); // this does not deal with invalid inputs btw
-            end = stoi(std::string(argv[2]));  // same thing , we intend to mainly use this with a script so not the first priority
+        if (argc == 3) {
+            try {
+                int s = std::stoi(argv[1]);
+                int e = std::stoi(argv[2]);
+
+                if (s < 0) s = 0;
+                if (e > 255) e = 255;
+                if (s > e) std::swap(s, e);
+
+                start = static_cast<uint8_t>(s);
+                end   = static_cast<uint8_t>(e);
+            } catch (...) {
+                std::cout << "Invalid input, defaulting to 0-255\n";
+            }
         }
         std::cout<<"generating linear data ....\n";
         write_linear(outLinear);
