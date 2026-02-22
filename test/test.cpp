@@ -12,7 +12,7 @@
             return;
         }
 
-        std::vector<u_int8_t> buffer(CHUNK_SIZE , 0x41);
+        std::vector<uint8_t> buffer(CHUNK_SIZE , 0x41);
 
         unsigned long int written = 0;
         while (written < WRITE_LIMIT) {

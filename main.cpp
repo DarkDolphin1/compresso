@@ -25,8 +25,6 @@
 		std::exit(1);
 	}
 
-	std::cout<<"Input :"<<input<<"\n";
-	std::cout<<"Output :"<<output<<"\n";
     compresso(input,output);
 
     return 0;
