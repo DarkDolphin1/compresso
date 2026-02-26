@@ -33,7 +33,5 @@ uint64_t freq[256] = {0};
         in.clear(); 
         in.seekg(0);
 
-        if(in.peek() != 0) std::cerr<<"[FREQ] : file pointer probably did not reset \n ";
-
+        if(in.tellg() != 0) std::cerr << "[FREQ] file pointer did not reset\n";
     }
-

@@ -7,6 +7,7 @@ a.out
 # ==== Compressed/generated files ====
 *.bin
 *.comp
+*.txt
 
 # ==== Large generated test files ====
 linear_input.txt
