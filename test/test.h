@@ -2,7 +2,7 @@
 #include<fstream>
 #include<vector>
 #include<cstdint>
-#include<threads.h>
+#include<thread>
 
 void write_linear(std::ofstream &outstream , const size_t , const size_t  );
 
