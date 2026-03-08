@@ -15,15 +15,16 @@
     std::string output;
     std::string input;
     if(argc > 2 && argv[1] == std::string("--decode")){
-      
+      input = argv[2];
+
     }
     if(argc > 2){
-      input = argv[1];
-        if(!std::filesystem::exists(input)){
-		  	  std::cout<<"Given file does not exist , check the file name and try again \n";
-			    std::exit(1);
-        }
-	  output = argv[2];
+    input = argv[1];
+      if(!std::filesystem::exists(input)){
+			  std::cout<<"Given file does not exist , check the file name and try again \n";
+			  std::exit(1);
+      }
+	output = argv[2];
     } else {
 		std::cout<<"Provide a file to compress \n";
 		printUsage();
