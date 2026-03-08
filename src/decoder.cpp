@@ -1,8 +1,12 @@
+#include"heap.h"
+#include"huffman.h"
+#include"gencode.h"
+#include"header.h"
+
 #include<fstream>
 #include<string.h>
 #include<filesystem>
 #include<iostream>
-
 
 std::ofstream* mkoutfile(std::string expName){
     std::ofstream outFile(expName,std::ios::binary);
@@ -14,6 +18,39 @@ std::ofstream* mkoutfile(std::string expName){
     return &outFile;
 }
 
+// unnecessary function overloading lol 
+std::ofstream* mkoutfile(std::ofstream &Dest , std::ifstream &Source ,Node* rootNode , Header &head){
+    uint8_t byte;
+    uint64_t written = 0;
+    uint64_t OoriginalSize = head.originalSize;
+
+    Node* current = rootNode;
+
+    while (Source.read(reinterpret_cast<char*>(&byte), 1) && written < OoriginalSize) {
+
+        for (int i = 7; i >= 0; --i) {
+
+            uint8_t bit = (byte >> i) & 1;
+
+            if (bit == 0) current = current->left;
+            else current = current->right;
+
+            // at leaf node 
+            if(current->left == nullptr && current->right == nullptr) {
+
+                Dest.put(current->symbol);
+                written++;
+
+                if (written == OoriginalSize)
+                    break;
+
+                current = rootNode; // reset pointer 
+            }
+        }
+    }
+
+    return &Dest;
+}
 
 int decode(std::string input){
     std::ifstream Source (input,std::ios::binary);
@@ -31,16 +68,21 @@ int decode(std::string input){
     }
 
     if(verifyFormat(input)){
-        std::cout<<"\n reading header from :"<<input;
+        std::cout<<"\n reading header from : "<<input<<"\n";
     } else return -3; // error while verifying header format or accessing file 
 
-    uint64_t originalSize;
-    uint64_t checksum;
-    uint64_t freq[256];
 
-    Source.read(reinterpret_cast<char*>(&originalSize), sizeof(originalSize));
-    Source.read(reinterpret_cast<char*>(&checksum), sizeof(checksum));
-    Source.read(reinterpret_cast<char*>(freq), sizeof(freq));
+    // Ohead is nothing but an intermediate representation of the header , read from source and used as ref while writing 
+    // Ohead = Ouput head(er)
+    Header Ohead;
+
+    Ohead.originalSize;
+    Ohead.checksum;
+    Ohead.freq[256];
+
+    Source.read(reinterpret_cast<char*>(&Ohead.originalSize), sizeof(Ohead.originalSize));
+    Source.read(reinterpret_cast<char*>(&Ohead.checksum), sizeof(Ohead.checksum));
+    Source.read(reinterpret_cast<char*>(Ohead.freq), sizeof(Ohead.freq));
 
     std::ofstream *dest = mkoutfile("decompressed_file"); // generates the file with no data 
     if(dest == nullptr){
@@ -48,7 +90,11 @@ int decode(std::string input){
         return -4; // error while writing , mkoutfile returned null 
     }
 
-    
+    std::priority_queue<Node*, std::vector<Node*>, Compare> *minHeap = buildHeap(Ohead.freq); 
+
+    const auto rootNode = buildTree(*minHeap);
+
+    auto temp = mkoutfile(*dest,Source,rootNode,Ohead);
     
 }
 
