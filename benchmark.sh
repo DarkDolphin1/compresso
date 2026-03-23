@@ -6,7 +6,7 @@ RESULTS="results.txt"
 
 TIME_CMD=$(command -v time)
 
-rm -f comp.bin "$FILE.gz" "$FILE.xz" "$FILE.zst" \
+rm -f comp.bin "$FILE.gz" "$FILE.xz" "$FILE.zst" "$FILE.lz4" \
   random.bin linear.bin \
   compresso \
   "$RESULTS" tmp_time.txt
@@ -47,6 +47,7 @@ run_test "compresso" "./compresso $FILE comp.bin" "comp.bin"
 run_test "gzip -9" "gzip -9 -k -f $FILE" "$FILE.gz"
 run_test "xz -9e -T0" "xz -9e -T0 -k -f $FILE" "$FILE.xz"
 run_test "zstd -22 --ultra -T0" "zstd -22 --ultra -T0 -k -f $FILE" "$FILE.zst"
+run_test "lz4 -9" "lz4 -9 -f $FILE $FILE.lz4" "$FILE.lz4"
 
 echo
 printf "%-25s %-15s %-12s %-12s\n" "Algorithm" "Size (MB)" "Time (s)" "Max RSS (MB)"
