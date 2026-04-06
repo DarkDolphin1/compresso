@@ -4,6 +4,18 @@
     Node* buildTree(){
         if(minHeap.size() == 0) return nullptr;
 
+        // Case: Only one unique symbol in the input
+        // Standard Huffman requires at least two nodes to create an internal node
+        // We add a dummy node to ensure the symbol gets at least a 1-bit code
+        if (minHeap.size() == 1) {
+            Node* leaf = minHeap.top();
+            minHeap.pop();
+            // Create a dummy node with 0 frequency and a symbol that won't appear (not used)
+            Node* dummy = new Node{ 0, 0xFF, nullptr, nullptr };
+            Node* parent = new Node{ leaf->freq, 0, leaf, dummy };
+            minHeap.push(parent);
+        }
+
             while (minHeap.size() > 1) {
                 Node* left = minHeap.top();
                 minHeap.pop();
@@ -15,6 +27,7 @@
                 minHeap.push(parent);
             }
         Node* root = minHeap.top();
+        minHeap.pop(); // Clear the root from minHeap
     return root;
     }
 
