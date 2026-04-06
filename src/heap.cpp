@@ -8,7 +8,11 @@ std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap; // will be usin
 
 
 bool Compare::operator()(const Node* a, const Node* b) const {
-    return a->freq > b->freq;
+    if (a->freq != b->freq) {
+        return a->freq > b->freq;
+    }
+    // Tie-breaker: use symbol value to ensure deterministic tree building
+    return a->symbol > b->symbol;
 }
 ;
 
