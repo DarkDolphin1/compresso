@@ -14,6 +14,6 @@ struct Compare {
     bool operator()(const Node* a, const Node* b) const;
 };
 
-std::priority_queue<Node*, std::vector<Node*>, Compare> *buildHeap(uint64_t freq[]);
+void buildHeap();
 
-std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap;
+extern std::priority_queue<Node*, std::vector<Node*>, Compare> minHeap;
