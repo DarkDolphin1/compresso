@@ -17,7 +17,15 @@ uint64_t freq[256] = {0};
             return;
         }
 
-        uint8_t symbol; // a symbol is basically a set of bits ( here 8 bits ) , which is basically a byte. doing this to avoid bit manipulation shit
+        // Initialize header fields
+        head.originalSize = 0;
+        head.checksum = 0;
+        for(int i=0; i<256; i++) {
+            head.freq[i] = 0;
+            freq[i] = 0; // also clear global freq just in case
+        }
+
+        uint8_t symbol; 
         uint64_t originalSize = 0;
 
         // make a frequency table 
