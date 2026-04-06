@@ -2,30 +2,26 @@
 #include"huffman.h"
 #include"gencode.h"
 #include"header.h"
+#include"freq.h"
 
 #include<fstream>
 #include<string.h>
 #include<filesystem>
 #include<iostream>
 
-std::ofstream* mkoutfile(std::string expName){
-    std::ofstream outFile(expName,std::ios::binary);
+// Forward declaration of verifyFormat to allow use in decode function
+static bool verifyFormat(std::string source);
 
-    if(!outFile.is_open()){
-        return nullptr;
-    }
-
-    return &outFile;
-}
-
+// Helper function to decode bitstream and write to output file
 // unnecessary function overloading lol 
-std::ofstream* mkoutfile(std::ofstream &Dest , std::ifstream &Source ,Node* rootNode , Header &head){
+void decodeBits(std::ofstream &Dest , std::ifstream &Source ,Node* rootNode , Header &head){
     uint8_t byte;
     uint64_t written = 0;
     uint64_t OoriginalSize = head.originalSize;
 
     Node* current = rootNode;
 
+    // Huffman decoding loop: traverse the tree bit by bit 
     while (Source.read(reinterpret_cast<char*>(&byte), 1) && written < OoriginalSize) {
 
         for (int i = 7; i >= 0; --i) {
@@ -41,18 +37,17 @@ std::ofstream* mkoutfile(std::ofstream &Dest , std::ifstream &Source ,Node* root
                 Dest.put(current->symbol);
                 written++;
 
+                // Ensure we don't write more than the original size (padding handling)
                 if (written == OoriginalSize)
                     break;
 
-                current = rootNode; // reset pointer 
+                current = rootNode; // reset pointer to root for next symbol
             }
         }
     }
-
-    return &Dest;
 }
 
-int decode(std::string input){
+int decode(std::string input, std::string output){
     std::ifstream Source (input,std::ios::binary);
 
     if(!Source.is_open()){
@@ -67,6 +62,7 @@ int decode(std::string input){
         }
     }
 
+    // Verify magic number "HFMN"
     if(verifyFormat(input)){
         std::cout<<"\n reading header from : "<<input<<"\n";
     } else return -3; // error while verifying header format or accessing file 
@@ -76,26 +72,47 @@ int decode(std::string input){
     // Ohead = Ouput head(er)
     Header Ohead;
 
-    Ohead.originalSize;
-    Ohead.checksum;
-    Ohead.freq[256];
+    // Skip the magic number as verifyFormat already checked it but we need to advance the stream
+    char magic[4];
+    Source.read(magic, 4);
 
+    // Read the rest of the header
     Source.read(reinterpret_cast<char*>(&Ohead.originalSize), sizeof(Ohead.originalSize));
     Source.read(reinterpret_cast<char*>(&Ohead.checksum), sizeof(Ohead.checksum));
     Source.read(reinterpret_cast<char*>(Ohead.freq), sizeof(Ohead.freq));
 
-    std::ofstream *dest = mkoutfile("decompressed_file"); // generates the file with no data 
-    if(dest == nullptr){
+    std::ofstream Dest(output, std::ios::binary);
+    if(!Dest.is_open()){
         std::cout<<"error while writing to file \n";
-        return -4; // error while writing , mkoutfile returned null 
+        return -4; // error while writing
     }
 
-    std::priority_queue<Node*, std::vector<Node*>, Compare> *minHeap = buildHeap(Ohead.freq); 
+    // Clear global freq and minHeap before rebuilding
+    memset(freq, 0, sizeof(freq));
+    while(!minHeap.empty()) minHeap.pop();
 
-    const auto rootNode = buildTree(*minHeap);
+    // Copy freq table from header to global freq
+    memcpy(freq, Ohead.freq, sizeof(freq));
 
-    auto temp = mkoutfile(*dest,Source,rootNode,Ohead);
+    // Rebuild Heap and Huffman Tree
+    buildHeap();
+    const auto rootNode = buildTree();
+
+    if (rootNode == nullptr) {
+        std::cout << "Error: Huffman tree is empty\n";
+        return -5;
+    }
+
+    // Perform the actual bit-by-bit decoding
+    decodeBits(Dest, Source, rootNode, Ohead);
     
+    // Cleanup
+    destroyTree(rootNode);
+    Dest.close();
+    Source.close();
+
+    std::cout << "Successfully decoded to: " << output << "\n";
+    return 0;
 }
 
 
