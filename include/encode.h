@@ -7,5 +7,5 @@ void writeBit(std::ofstream&,uint8_t,uint8_t&,uint8_t&);
 
 void writeCode(std::ofstream&,const Code&,uint8_t&,uint8_t&);
 
-void encodeFile(std::ifstream&,std::ofstream& , Code &codes);
+void encodeFile(std::ifstream&,std::ofstream&);
 
