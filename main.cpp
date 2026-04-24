@@ -35,7 +35,7 @@ int main(int argc , char** argv){
         output = argv[2];
     }
 
-    if(!std::filesystem::exists(input)){
+    if(!std::filesystem::exists(input) && !isDecode){
         std::cout<<"Given file does not exist: " << input << "\n";
         return 1;
     }
