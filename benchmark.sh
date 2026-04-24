@@ -6,7 +6,7 @@ RESULTS="results.txt"
 
 TIME_CMD=$(command -v time)
 
-rm -f comp.bin "$FILE.gz" "$FILE.xz" "$FILE.zst" "$FILE.lz4" \
+rm -f comp.bin *.gz *.xz *.zst *.lz4 \
   random.bin linear.bin \
   compresso \
   "$RESULTS" tmp_time.txt
